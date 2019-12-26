@@ -47,9 +47,14 @@ class CarList extends React.Component<{}, IState> {
   }
 
   fetchCars = () => {
-    fetch(SERVER_URL + "api/cars")
-      .then((response) => response.json())
-      .then((data) => {
+    const jwt = sessionStorage.getItem("jwt");
+
+    fetch<>(SERVER_URL + "api/cars",
+      {
+        headers: { "Authorization": jwt }
+      })
+      .then((response: Response) => response.json())
+      .then((data: any) => {
         this.setState({ cars: data._embedded.cars });
       })
       .catch(err => {
@@ -62,7 +67,13 @@ class CarList extends React.Component<{}, IState> {
 
   onDeleteClick = (link: string) => {
     if (window.confirm("Are you sure to delete?")) {
-      fetch(link, { method: "DELETE" })
+      const jwt = sessionStorage.getItem("jwt");
+
+      fetch<>(link,
+        {
+          method: "DELETE",
+          headers: { "Authorization": jwt }
+        })
         .then(() => {
           toast.success("Car deleted", {
             position: toast.POSITION.BOTTOM_LEFT
@@ -91,10 +102,13 @@ class CarList extends React.Component<{}, IState> {
   };
 
   addCar = (car: Car) => {
-    fetch(SERVER_URL + "api/cars", {
+    const jwt = sessionStorage.getItem("jwt");
+
+    fetch<>(SERVER_URL + "api/cars", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": jwt
       },
       body: JSON.stringify(car)
     })
@@ -110,10 +124,13 @@ class CarList extends React.Component<{}, IState> {
   };
 
   updateCar = (car: Car) => {
+    const jwt = sessionStorage.getItem("jwt");
+
     fetch(car._links.self.href, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": jwt
       },
       body: JSON.stringify(car)
     })
