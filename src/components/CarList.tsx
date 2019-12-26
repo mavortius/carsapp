@@ -2,6 +2,7 @@ import React, { RefObject } from "react";
 import MaterialTable from "material-table";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CSVLink } from "react-csv";
 import { SERVER_URL } from "../constants";
 import AddCar from "./AddCar";
 import EditCar from "./EditCar";
@@ -154,6 +155,7 @@ class CarList extends React.Component<{}, IState> {
     return (
       <div>
         <AddCar addCar={this.addCar}/>
+        <CSVLink data={this.state.cars} separator=";">Export to CSV</CSVLink>
         <EditCar ref={this.editCarElement} updateCar={this.updateCar}/>
         <MaterialTable columns={columns} data={this.state.cars} title="Cars" actions={actions}/>
         <ToastContainer autoClose={1500}/>
