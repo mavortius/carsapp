@@ -2,7 +2,6 @@ import React, { RefObject } from "react";
 import MaterialTable from "material-table";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CSVLink } from "react-csv";
 import { SERVER_URL } from "../constants";
 import AddCar from "./AddCar";
 import EditCar from "./EditCar";
@@ -16,11 +15,14 @@ type IState = {
 
 class CarList extends React.Component<{}, IState> {
 
+  addCarElement: RefObject<AddCar>;
   editCarElement: RefObject<EditCar>;
 
   constructor(props: Readonly<{}>) {
     super(props);
+    this.addCarElement = React.createRef();
     this.editCarElement = React.createRef();
+
     this.state = {
       cars: [],
       selectedCar: {
@@ -79,6 +81,12 @@ class CarList extends React.Component<{}, IState> {
   onEditClick = (car: Car) => {
     if (this.editCarElement.current) {
       this.editCarElement.current.handleClickOpen(car);
+    }
+  };
+
+  onAddClick = () => {
+    if (this.addCarElement.current) {
+      this.addCarElement.current.handleClickOpen();
     }
   };
 
@@ -141,6 +149,12 @@ class CarList extends React.Component<{}, IState> {
     ];
     const actions = [
       {
+        icon: "add",
+        tooltip: "Add New Car",
+        isFreeAction: true,
+        onClick: (event: any) => this.onAddClick()
+      },
+      {
         icon: "edit",
         tooltip: "Edit Car",
         onClick: (event: any, rowData: any) => this.onEditClick(rowData)
@@ -154,10 +168,10 @@ class CarList extends React.Component<{}, IState> {
 
     return (
       <div>
-        <AddCar addCar={this.addCar}/>
-        <CSVLink data={this.state.cars} separator=";">Export to CSV</CSVLink>
+        <AddCar ref={this.addCarElement} addCar={this.addCar}/>
         <EditCar ref={this.editCarElement} updateCar={this.updateCar}/>
-        <MaterialTable columns={columns} data={this.state.cars} title="Cars" actions={actions}/>
+        <MaterialTable columns={columns} data={this.state.cars} title="Cars" actions={actions}
+                       options={{ exportButton: true, exportDelimiter: ";" }}/>
         <ToastContainer autoClose={1500}/>
       </div>
     )

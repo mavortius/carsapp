@@ -13,7 +13,6 @@
     "@types/react-dom": "^16.9.0",
     "material-table": "^1.54.2",
     "react": "^16.12.0",
-    "react-csv": "^1.1.2",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
     "react-toastify": "^5.4.1",
@@ -40,7 +39,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/react-csv": "^1.1.1"
-  }
+  "devDependencies": {}
 }

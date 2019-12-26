@@ -19,6 +19,7 @@ class AddCar extends React.Component<IProps, IState> {
   constructor(props: Readonly<IProps>) {
     super(props);
     this.state = {
+      open: false,
       car: {
         brand: "",
         model: "",
@@ -31,8 +32,7 @@ class AddCar extends React.Component<IProps, IState> {
             href: ""
           }
         }
-      },
-      open: false
+      }
     }
   }
 
@@ -74,7 +74,6 @@ class AddCar extends React.Component<IProps, IState> {
   render() {
     return (
       <div>
-        <button style={{ margin: 10 }} onClick={this.handleClickOpen}>New</button>
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle>New car</DialogTitle>
           <DialogContent>
@@ -84,7 +83,8 @@ class AddCar extends React.Component<IProps, IState> {
                    onChange={this.handleChange}/><br/>
             <input type="text" placeholder="Color" name="color" value={this.state.car.color}
                    onChange={this.handleChange}/><br/>
-            <input type="text" placeholder="Year" name="year" value={this.state.car.year} onChange={this.handleChange}/><br/>
+            <input type="text" placeholder="Year" name="year" value={this.state.car.year}
+                   onChange={this.handleChange}/><br/>
             <input type="text" placeholder="Price" name="price" value={this.state.car.price}
                    onChange={this.handleChange}/><br/>
           </DialogContent>
